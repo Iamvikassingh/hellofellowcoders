@@ -20,7 +20,7 @@ const Loginpage = () => {
                             Student/Teacher log-in
                         </h1>
                         <div className="container-fluid outerloginpagebox col-10 p-5 rounded-3xl d-flex ">
-                            <img src={loginimagesvg} className='img-fluid w-80' alt="" />
+                            <img src={loginimagesvg} className='img-fluid w-80' alt="loginimagesvg" />
                             <div className="innerloginpage p-4 w-100">
                                 <form>
                                     <div className="mb-3">
