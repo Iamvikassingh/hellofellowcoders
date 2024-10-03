@@ -1,6 +1,6 @@
 import React from 'react'
 import logoforapp from '../../assets/hellologo.png'
-import './logocss/logo.css'
+import './logo.css'
 
 
 const Logoarea = () => {

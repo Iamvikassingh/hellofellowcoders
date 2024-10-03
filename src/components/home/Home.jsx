@@ -1,7 +1,7 @@
 import { React, useState } from 'react'
-import './Homecss/Home.css'
+import './Home.css'
 import Logoarea from '../logoarea/Logoarea'
-import Offlineonline from '../../onlineoffline/Offlineonline';
+import Offlineonline from '../onlineoffline/Offlineonline';
 import Navbar from '../navbar/Navbar';
 
 function Home() {
