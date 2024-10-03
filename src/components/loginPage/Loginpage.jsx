@@ -16,12 +16,12 @@ const Loginpage = () => {
             <section>
                 <div className="container-fluid  justify-center d-flex text-black">
                     <div className="container my-10 ">
-                        <h1 className='text-center text-4xl font-bold font-serif text-capitalize my-4 text-light'>
+                        <h1 className='text-wrap text-center text-4xl font-bold font-serif text-capitalize my-4 text-light'>
                             Student/Teacher log-in
                         </h1>
-                        <div className="container-fluid outerloginpagebox col-10 p-5 rounded-3xl d-flex ">
+                        <div className="container-fluid outerloginpagebox col-10 p-5 rounded-3xl d-flex formloginmobileview">
                             <img src={loginimagesvg} className='img-fluid w-80' alt="loginimagesvg" />
-                            <div className="innerloginpage p-4 w-100">
+                            <div className="innerloginpage  w-100">
                                 <form>
                                     <div className="mb-3">
                                         <label for="exampleInputEmail1" className="form-label">Email address</label>
