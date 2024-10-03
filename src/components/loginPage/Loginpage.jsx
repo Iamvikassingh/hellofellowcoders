@@ -1,5 +1,5 @@
 import React from 'react'
-import './loginpagecss/Loginpage.css'
+import './logincss/Login.css'
 import Logoarea from '../logoarea/Logoarea'
 import Navbar from '../navbar/Navbar'
 import loginimagesvg from '../../assets/loginsvg.svg'
