@@ -61,7 +61,7 @@ const Registration = () => {
                                 </div>
                                 <div className="container-fluid">
                                     <div className="w-100">
-                                        <p className='text-white text-capitalize my-2 text-md my-5'>
+                                        <p className='text-white text-capitalize  text-md my-5'>
                                             Join Hellofellowcoder as a teacher and inspire the next generation of coders! Register now to share your expertise, mentor aspiring developers, and make a difference in their coding journey. Together, let's build a vibrant coding community!
                                         </p>
                                         <form>
@@ -124,7 +124,7 @@ const Registration = () => {
                                 </div>
                                 <div className="container-fluid">
                                     <div className="w-100">
-                                        <p className='text-white text-capitalize my-2 text-md my-5'>
+                                        <p className='text-white text-capitalize  text-md my-5'>
                                             Join Hellofellowcoder as a student and unlock your coding potential! Register now to learn from experienced instructors, enhance your skills, and embark on an exciting journey in programming. Start learning today and become a part of our thriving coding community!
                                         </p>
                                         <form>
