@@ -12,7 +12,7 @@ const Navbar = () => {
                         <Link to="/about">About</Link>
                         <Link to="https://myportfoliobyvikassingh.netlify.app" className='text-capitalize' target='_blank'>Visit Myportfolio</Link>
                     </div>
-                    <div className="smallviewpostion container-fluid d-flex  flex-wrap gap-4 text-capitalize">
+                    <div className="smallviewpostion container-fluid d-flex  flex-wrap justify-end gap-4 text-capitalize">
                         <Link to="/login">
                             <button className='btn btn-primary'>
                                 Log in

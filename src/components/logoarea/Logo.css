@@ -5,3 +5,11 @@
     height: 4rem;
     margin: 0;
 }
+
+@media only screen and (max-width: 768px) {
+    .rightcontainer {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+}

@@ -16,7 +16,7 @@ const Logoarea = () => {
                     </h1>
                 </div>
                 <div className="rightcontainer">
-                    <h1 className='text-capitalize text-light text-lg  mx-2'>
+                    <h1 className='text-capitalize text-light text-lg mx-2 text-center'>
                         <i className="bi bi-exclamation-circle text-sm  font-bold mx-2"></i>
                         Created By Vikas Singh 😊
                     </h1>
