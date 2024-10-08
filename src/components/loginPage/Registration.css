@@ -1,6 +1,7 @@
 .imageareaforteacher{
-    background-image: url('../../assets/teacher.jpg');
+    background-image: url('../../assets/register.jpg');
     background-position: center;
+    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
     background-size: cover;
     box-shadow: -3px 14px 54px rgba(255, 255, 255, 0.516);
     max-width: 100;
