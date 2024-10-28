@@ -34,7 +34,12 @@ const StudentRegistration = () => {
         e.preventDefault();
         if (validateStudentForm()) {
             try {
-                const response = await axios.post('https://backend-url-for-students.com/register', studentData);
+                // console.log('Sending data:', JSON.stringify(studentData, null, 2));
+                const response = await axios.post('http://localhost:8000/api/users/registerstudent', studentData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
                 console.log('Student registration success:', response.data);
             } catch (error) {
                 console.error('Student registration error:', error);
@@ -121,7 +126,7 @@ const StudentRegistration = () => {
                                 <div className="mb-3">
                                     <label htmlFor="exampleInputPhone2" className="form-label">Phone number</label>
                                     <input
-                                        type="tel"
+                                        type="phone"
                                         className="form-control"
                                         id="exampleInputPhone2"
                                         name="phone"
@@ -130,10 +135,7 @@ const StudentRegistration = () => {
                                     />
                                     {errors.phone && <p className="text-danger">{errors.phone}</p>}
                                 </div>
-                                <div className="mb-3 form-check">
-                                    <input type="checkbox" className="form-check-input" id="exampleCheck2" />
-                                    <label className="form-check-label" htmlFor="exampleCheck2">Check me out if all fields are correct</label>
-                                </div>
+
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </form>
                         </div>
