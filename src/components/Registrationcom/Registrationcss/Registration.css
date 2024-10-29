@@ -1,5 +1,5 @@
 .imageareaforteacher{
-    background-image: url('../../assets/register.jpg');
+    background-image: url('../../../assets/register.jpg');
     background-position: center;
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
     background-size: cover;
@@ -14,11 +14,11 @@
 }
 
 .imageareacontrol{
-    max-width: 20%;
+    max-width: 30%;
 }
 
 .textareacontrol{
-    max-width: 80%;
+    max-width: 70%;
 }
 
 @media only screen and (max-width:960px) {

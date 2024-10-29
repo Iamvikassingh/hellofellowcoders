@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import studentillustrator from '../../assets/studentundraw.svg';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StudentRegistration = () => {
+    const navigate = useNavigate();
+
     const [studentData, setStudentData] = useState({
         firstName: '',
         lastName: '',
@@ -23,7 +28,6 @@ const StudentRegistration = () => {
         if (!studentData.firstName.trim()) newErrors.firstName = 'First name is required';
         if (!studentData.lastName.trim()) newErrors.lastName = 'Last name is required';
         if (!studentData.email.includes('@')) newErrors.email = 'Valid email is required';
-        if (studentData.password !== studentData.confirmPassword) newErrors.password = 'Passwords must match';
         if (!studentData.phone.match(/^\d{10}$/)) newErrors.phone = 'Phone number must be 10 digits';
 
         setErrors(newErrors);
@@ -40,20 +44,39 @@ const StudentRegistration = () => {
                         'Content-Type': 'application/json',
                     },
                 });
+
+                toast.success('Student registered successfully!', { autoClose: 3000 });
                 console.log('Student registration success:', response.data);
+
+                setTimeout(() => navigate('/login'), 6000);
+
             } catch (error) {
                 console.error('Student registration error:', error);
+                if (error.response) {
+                    console.error('Response error data:', error.response.data);
+                    setSubmissionError(error.response.data.error || 'Unable to register. Please try again later.');
+                } else if (error.request) {
+                    console.error('No response received:', error.request);
+                    setSubmissionError('Network error. Please check your connection and try again.');
+                } else {
+                    console.error('Error setting up the request:', error.message);
+                    setSubmissionError('An unexpected error occurred. Please try again.');
+                }
             }
         }
     };
 
     return (
         <section>
-            <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark">
-                <div className="container-fluid imageareacontrol items-center justify-center d-flex">
-                    <img src={studentillustrator} className='img-fluid imagesizecontroller' alt="Student illustration" />
+            <ToastContainer />
+            <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark gap-4">
+                <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2">
+                    <img src={studentillustrator} className='img-fluid imagesizecontroller' alt="Student illustration" width={200} />
+                    <div className="text-center text-capitalize text-white font-serif font-bold text-2xl">
+                        Student
+                    </div>
                 </div>
-                <div className="text-white text-justify p-2 textareacontrol">
+                <div className="text-white text-justify py-4 bg-gray-900 rounded-xl textareacontrol">
                     <div className="container-fluid">
                         <h1 className='text-gray-100 text-4xl text-center text-capitalize my-4 font-bold'>
                             Student Registration
@@ -65,7 +88,7 @@ const StudentRegistration = () => {
                                 Join Hellofellowcoder as a student and enhance your coding skills! Register now to gain access to resources, connect with mentors, and grow as a developer. Embark on your coding journey today!
                             </p>
                             <form onSubmit={handleStudentSubmit}>
-                                <div className="mb-3 d-flex gap-2 items-center formresponsive">
+                                <div className="mb-3 d-flex gap-2 flex-col formresponsive">
                                     <label htmlFor="studentFirstName" className="form-label text-left">FirstName</label>
                                     <input
                                         type="text"
@@ -111,17 +134,6 @@ const StudentRegistration = () => {
                                         onChange={handleStudentChange}
                                     />
                                     {errors.password && <p className="text-danger">{errors.password}</p>}
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="exampleInputPassword4" className="form-label">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="exampleInputPassword4"
-                                        name="confirmPassword"
-                                        value={studentData.confirmPassword}
-                                        onChange={handleStudentChange}
-                                    />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="exampleInputPhone2" className="form-label">Phone number</label>

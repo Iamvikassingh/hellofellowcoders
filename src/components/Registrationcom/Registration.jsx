@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Registration.css';
+import './Registrationcss/Registration.css';
 import teacherillustrator from '../../assets/loginsvg.svg';
 import Logoarea from '../logoarea/Logoarea';
 import Navbar from '../navbar/Navbar';
 import StudentRegistration from './Studentregistration';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
+    const navigate = useNavigate();
     const [isTeacher, setIsTeacher] = useState(true);
     const [teacherData, setTeacherData] = useState({
         firstName: '',
@@ -34,7 +38,6 @@ const Registration = () => {
         if (!teacherData.firstName.trim()) newErrors.firstName = 'First name is required';
         if (!teacherData.lastName.trim()) newErrors.lastName = 'Last name is required';
         if (!teacherData.email.includes('@')) newErrors.email = 'Valid email is required';
-        if (teacherData.password !== teacherData.confirmPassword) newErrors.password = 'Passwords must match';
         if (!teacherData.subject.trim()) newErrors.subject = 'Subject is required';
         if (!/^\d{10}$/.test(teacherData.phone)) newErrors.phone = 'Phone number must be 10 digits';
 
@@ -48,13 +51,15 @@ const Registration = () => {
 
         if (validateTeacherForm()) {
             try {
-                // console.log('Sending data:', JSON.stringify(teacherData, null, 2));
                 const response = await axios.post('http://localhost:8000/api/users/registerteacher', teacherData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 });
+                toast.success('Teacher registered successfully!', { autoClose: 3000 });
                 console.log('Teacher registration success:', response.data);
+
+                setTimeout(() => navigate('/login'), 6000);
             } catch (error) {
                 console.error('Teacher registration error:', error);
 
@@ -74,6 +79,7 @@ const Registration = () => {
 
     return (
         <>
+            <ToastContainer />
             <section>
                 <Logoarea />
             </section>
@@ -90,12 +96,12 @@ const Registration = () => {
                             <button
                                 className={`btn btn-primary text-capitalize ${isTeacher ? 'active' : ''}`}
                                 onClick={() => changeRegistrationForm('teacher')}>
-                                Teacher Registration
+                                Teacher
                             </button>
                             <button
                                 className={`btn btn-success text-capitalize ${!isTeacher ? 'active' : ''}`}
                                 onClick={() => changeRegistrationForm('student')}>
-                                Student Registration
+                                Student
                             </button>
                         </div>
                     </div>
@@ -103,11 +109,14 @@ const Registration = () => {
             </section>
             {isTeacher ? (
                 <section>
-                    <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark">
-                        <div className="container-fluid imageareacontrol items-center justify-center d-flex">
-                            <img src={teacherillustrator} className='img-fluid imagesizecontroller' alt="Teacher illustration" />
+                    <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark gap-4">
+                        <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2">
+                            <img src={teacherillustrator} className='img-fluid imagesizecontroller' alt="Teacher illustration" width={250} />
+                            <div className="text-center text-capitalize text-white font-serif font-bold text-2xl">
+                                Teacher
+                            </div>
                         </div>
-                        <div className="text-white text-justify p-2 textareacontrol">
+                        <div className="text-white text-justify py-4 textareacontrol bg-gray-900 rounded-xl ">
                             <div className="container-fluid">
                                 <h1 className='text-gray-100 text-4xl text-center text-capitalize my-4 font-bold'>Teacher Registration</h1>
                             </div>
@@ -118,7 +127,7 @@ const Registration = () => {
                                     </p>
                                     {submissionError && <p className="text-light">{submissionError}</p>}
                                     <form onSubmit={handleTeacherSubmit}>
-                                        <div className="mb-3 d-flex gap-2 items-center formresponsive">
+                                    <div className="mb-3 d-flex gap-2  formresponsive flex-col">
                                             <label htmlFor="teacherFirstName" className="form-label text-left">FirstName</label>
                                             <input
                                                 type="text"
@@ -166,17 +175,6 @@ const Registration = () => {
                                             {errors.password && <p className="text-danger">{errors.password}</p>}
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="exampleInputPassword2" className="form-label">Confirm Password</label>
-                                            <input
-                                                type="password"
-                                                className="form-control"
-                                                id="exampleInputPassword2"
-                                                name="confirmPassword"
-                                                value={teacherData.confirmPassword}
-                                                onChange={handleTeacherChange}
-                                            />
-                                        </div>
-                                        <div className="mb-3">
                                             <label htmlFor="exampleInputSubject" className="form-label">Subject Teacher</label>
                                             <input
                                                 type="text"
@@ -197,7 +195,6 @@ const Registration = () => {
                                                 value={teacherData.phone}
                                                 onChange={handleTeacherChange}
                                                 maxLength={10}
-                                                placeholder="Enter a 10-digit phone number"
                                             />
                                             {errors.phone && <p className="text-danger">{errors.phone}</p>}
                                         </div>

@@ -36,6 +36,15 @@ function Home() {
                     )
                 }
             </section>
+            <section>
+                <div className="container-fluid bg-gray-950 mt-8 ">
+                    <div className="container-fluid col-11 p-5 bg-gray-200 rounded-xl">
+                        <p className='text-center text-capitalize text-xl font-serif font-bold text-wrap'>
+                            Before using any functionality you need to Register/login
+                        </p>
+                    </div>
+                </div>
+            </section>
         </>
     )
 }
