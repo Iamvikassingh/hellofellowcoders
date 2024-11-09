@@ -5,6 +5,7 @@ import Mainapp from './components/mainapp/Mainapp'
 import Loginpage from './components/loginPage/Loginpage'
 import Registration from './components/Registrationcom/Registration'
 import PrivateComponent from './components/privatecomponent/PrivateComponent'
+import Chatfunction from './components/Chat/Chatfunction'
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           
             {/* here is the privateComponet */}
           <Route element={<PrivateComponent />}>
-            <Route path='/Chat' element={<h1>this is main chat application</h1>} />
+            <Route path='/Chat' element={<Chatfunction/>} />
           </Route>
 
           <Route path='/login' element={<Loginpage />} />

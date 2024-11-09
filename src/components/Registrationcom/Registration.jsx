@@ -10,7 +10,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Registration = () => {
+    const sendUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [submissionError, setSubmissionError] = useState(null);
     const [isTeacher, setIsTeacher] = useState(true);
     const [teacherData, setTeacherData] = useState({
         firstName: '',
@@ -22,8 +25,6 @@ const Registration = () => {
         phone: '',
     });
 
-    const [errors, setErrors] = useState({});
-    const [submissionError, setSubmissionError] = useState(null);
 
     const changeRegistrationForm = (formType) => {
         setIsTeacher(formType === 'teacher');
@@ -51,7 +52,7 @@ const Registration = () => {
 
         if (validateTeacherForm()) {
             try {
-                const response = await axios.post('http://localhost:8000/api/users/registerteacher', teacherData, {
+                const response = await axios.post(`${sendUrl}/api/users/registerteacher`, teacherData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -59,7 +60,7 @@ const Registration = () => {
                 toast.success('Teacher registered successfully!', { autoClose: 3000 });
                 console.log('Teacher registration success:', response.data);
 
-                setTimeout(() => navigate('/login'), 6000);
+                setTimeout(() => navigate('/login'), 4000);
             } catch (error) {
                 console.error('Teacher registration error:', error);
 
@@ -125,7 +126,7 @@ const Registration = () => {
                                     <p className='text-white text-capitalize text-md my-5'>
                                         Join Hellofellowcoder as a teacher and inspire the next generation of coders! Register now to share your expertise, mentor aspiring developers, and make a difference in their coding journey. Together, let's build a vibrant coding community!
                                     </p>
-                                    {submissionError && <p className="text-light">{submissionError}</p>}
+                                    {submissionError && <p className="text-danger my-3">{submissionError}</p>}
                                     <form onSubmit={handleTeacherSubmit}>
                                     <div className="mb-3 d-flex gap-2  formresponsive flex-col">
                                             <label htmlFor="teacherFirstName" className="form-label text-left">FirstName</label>

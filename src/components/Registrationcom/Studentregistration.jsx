@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const StudentRegistration = () => {
-    const navigate = useNavigate();
 
+const StudentRegistration = () => {
+    const sendUrl = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [submissionError, setSubmissionError] = useState(null);
     const [studentData, setStudentData] = useState({
         firstName: '',
         lastName: '',
@@ -17,7 +20,6 @@ const StudentRegistration = () => {
         phone: '',
     });
 
-    const [errors, setErrors] = useState({});
 
     const handleStudentChange = (e) => {
         setStudentData({ ...studentData, [e.target.name]: e.target.value });
@@ -39,7 +41,7 @@ const StudentRegistration = () => {
         if (validateStudentForm()) {
             try {
                 // console.log('Sending data:', JSON.stringify(studentData, null, 2));
-                const response = await axios.post('http://localhost:8000/api/users/registerstudent', studentData, {
+                const response = await axios.post(`${sendUrl}/api/users/registerstudent`, studentData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -48,7 +50,7 @@ const StudentRegistration = () => {
                 toast.success('Student registered successfully!', { autoClose: 3000 });
                 console.log('Student registration success:', response.data);
 
-                setTimeout(() => navigate('/login'), 6000);
+                setTimeout(() => navigate('/login'), 4000);
 
             } catch (error) {
                 console.error('Student registration error:', error);
@@ -70,7 +72,7 @@ const StudentRegistration = () => {
         <section>
             <ToastContainer />
             <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark gap-4">
-                <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2">
+                <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2 rounded-xl">
                     <img src={studentillustrator} className='img-fluid imagesizecontroller' alt="Student illustration" width={200} />
                     <div className="text-center text-capitalize text-white font-serif font-bold text-2xl">
                         Student
@@ -87,6 +89,7 @@ const StudentRegistration = () => {
                             <p className='text-white text-capitalize  text-md my-5'>
                                 Join Hellofellowcoder as a student and enhance your coding skills! Register now to gain access to resources, connect with mentors, and grow as a developer. Embark on your coding journey today!
                             </p>
+                            {submissionError && <p className="text-danger my-3">{submissionError}</p>}
                             <form onSubmit={handleStudentSubmit}>
                                 <div className="mb-3 d-flex gap-2 flex-col formresponsive">
                                     <label htmlFor="studentFirstName" className="form-label text-left">FirstName</label>

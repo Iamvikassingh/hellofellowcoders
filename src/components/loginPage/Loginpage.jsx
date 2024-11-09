@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Loginpage = () => {
+    const sendUrl = import.meta.env.VITE_API_URL;
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -33,7 +34,7 @@ const Loginpage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8000/api/users/logindetail', formData);
+            const response = await axios.post(`${sendUrl}/api/users/logindetail`, formData);
 
             if (response.status === 200) {
                 const { name, email } = response.data;
@@ -66,10 +67,10 @@ const Loginpage = () => {
             <section>
                 <div className="container-fluid justify-center d-flex text-black">
                     <div className="container my-10">
-                        <h1 className="text-wrap text-center text-4xl font-bold font-serif text-capitalize my-4 text-light">
+                        <h1 className=" text-center text-2xl font-bold font-serif text-capitalize my-4 text-light text-wrap">
                             Student/Teacher log-in
                         </h1>
-                        <div className="container-fluid outerloginpagebox col-10 p-5 rounded-3xl d-flex formloginmobileview">
+                        <div className="container-fluid outerloginpagebox gap-3 col-10 py-4 rounded-3xl d-flex formloginmobileview">
                             <img src={loginimagesvg} className="img-fluid w-80" alt="login" />
                             <div className="innerloginpage w-100">
                                 <form onSubmit={handleSubmit}>

@@ -13,7 +13,7 @@ const Offlineonline = () => {
         }
     }, []);
 
-    const showinternetconn = () => {
+    const shownternetconn = () => {
         const timer = setTimeout(() => {
             setShowInternetConn(false);
         }, 4000);
@@ -22,6 +22,7 @@ const Offlineonline = () => {
 
     const updateOnlineStatus = () => {
         setIsOnline(navigator.onLine);
+        shownternetconn();
     };
 
     useEffect(() => {
@@ -35,13 +36,18 @@ const Offlineonline = () => {
 
     return (
         <>
-            <div className={`container-fluid ${isOnline ? 'bg-lime-700' : 'bg-red-700'}`}>
-                <div className="userdetails">
-                    <h1 className="text-left font-bold font-sens text-lg text-dark py-1">
-                        Welcome: <span className='text-capitalize text-light'> {username}</span>
-                    </h1>
-                </div>
-            </div>
+            {
+                showInternetConn && (
+                    <div className={`container-fluid ${isOnline ? 'bg-lime-700' : 'bg-red-700'}`}>
+                        <div className="userdetails">
+                            <h1 className="text-left font-bold font-sens text-lg text-dark py-1">
+                                Welcome: <span className='text-capitalize text-light'> {username}</span>
+                            </h1>
+                        </div>
+                    </div>
+                )
+            }
+
         </>
     );
 };
