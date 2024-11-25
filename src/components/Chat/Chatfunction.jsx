@@ -35,7 +35,7 @@ function Chatfunction() {
                     </h1>
                 </div>
                 <div className="d-flex justify-end items-center container-fluid">
-                    <button onClick={toggleChatBox} className="btn btn-outline-primary buttonstyle">
+                    <button onClick={toggleChatBox} className="btn btn-outline-primary btn-sm buttonstyle">
                         {openChat ? "Close Chat" : "Open Chat"}
                     </button>
                 </div>

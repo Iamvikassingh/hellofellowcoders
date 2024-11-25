@@ -71,27 +71,27 @@ const StudentRegistration = () => {
     return (
         <section>
             <ToastContainer />
-            <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark gap-4">
-                <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2 rounded-xl">
-                    <img src={studentillustrator} className='img-fluid imagesizecontroller' alt="Student illustration" width={200} />
-                    <div className="text-center text-capitalize text-white font-serif font-bold text-2xl">
+            <div className="d-flex justify-between gap-4 bg-dark my-8 py-2 rounded-3xl col-11 container-fluid imageareaforteacher">
+                <div className="d-flex flex-col justify-center items-center gap-2 rounded-xl container-fluid imageareacontrol">
+                    <img src={studentillustrator} className='imagesizecontroller img-fluid' alt="Student illustration" width={200} />
+                    <div className="font-bold font-serif text-2xl text-center text-white text-capitalize">
                         Student
                     </div>
                 </div>
-                <div className="text-white text-justify py-4 bg-gray-900 rounded-xl textareacontrol">
+                <div className="bg-gray-900 py-4 rounded-xl text-justify text-white textareacontrol">
                     <div className="container-fluid">
-                        <h1 className='text-gray-100 text-4xl text-center text-capitalize my-4 font-bold'>
+                        <h1 className='my-4 font-bold text-4xl text-center text-gray-100 text-capitalize'>
                             Student Registration
                         </h1>
                     </div>
                     <div className="container-fluid">
                         <div className="w-100">
-                            <p className='text-white text-capitalize  text-md my-5'>
+                            <p className='my-5 text-md text-white text-capitalize'>
                                 Join Hellofellowcoder as a student and enhance your coding skills! Register now to gain access to resources, connect with mentors, and grow as a developer. Embark on your coding journey today!
                             </p>
-                            {submissionError && <p className="text-danger my-3">{submissionError}</p>}
+                            {submissionError && <p className="my-3 text-danger">{submissionError}</p>}
                             <form onSubmit={handleStudentSubmit}>
-                                <div className="mb-3 d-flex gap-2 flex-col formresponsive">
+                                <div className="d-flex flex-col gap-2 mb-3 formresponsive">
                                     <label htmlFor="studentFirstName" className="form-label text-left">FirstName</label>
                                     <input
                                         type="text"
@@ -151,7 +151,7 @@ const StudentRegistration = () => {
                                     {errors.phone && <p className="text-danger">{errors.phone}</p>}
                                 </div>
 
-                                <button type="submit" className="btn btn-primary">Submit</button>
+                                <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                             </form>
                         </div>
                     </div>

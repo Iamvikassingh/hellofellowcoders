@@ -24,27 +24,38 @@ const Getchatsfromapiteacher = ({ setSelectedChatUser }) => {
 
     return (
         <div className="container-fluid">
-            {teachers.map((teacher, index) => (
-                <div
-                    key={index}
-                    className="d-flex justify-between bg-gray-600 my-2 py-2 rounded-xl btn btn-primary personsinlist"
-                    onClick={() => setSelectedChatUser(teacher)}
-                >
-                    <span className="d-flex justify-start gap-2">
-                        <i className="bi bi-person-circle"></i>
-                        <p className="text-capitalize">
-                            {`${teacher.firstName} ${teacher.lastName}`}
-                        </p>
-                    </span>
-                    <span onClick={(e) => e.stopPropagation()}>
-                        <BiDotsVerticalRounded
-                            size={24}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleOpenModal(teacher)}
-                        />
-                    </span>
-                </div>
-            ))}
+
+            {
+                teachers.length > 0 ? (
+                    teachers.map((teacher, index) => (
+                        <div
+                            key={index}
+                            className="d-flex justify-between bg-gray-600 my-2 py-2 rounded-xl btn btn-primary personsinlist"
+                            onClick={() => setSelectedChatUser(teacher)}
+                        >
+                            <span className="d-flex justify-start gap-2">
+                                <i className="bi bi-person-circle"></i>
+                                <p className="text-capitalize">
+                                    {`${teacher.firstName} ${teacher.lastName}`}
+                                </p>
+                            </span>
+                            <span onClick={(e) => e.stopPropagation()}>
+                                <BiDotsVerticalRounded
+                                    size={24}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleOpenModal(teacher)}
+                                />
+                            </span>
+                        </div>
+                    ))) : (
+                    <div className="d-flex justify-center items-center bg-transparent container">
+                        <div class="loader">
+                            <div class="justify-content-center jimu-primary-loading"></div>
+                        </div>
+                    </div>
+                )
+
+            }
 
             {/* Modal Section */}
             {selectedTeacher && (

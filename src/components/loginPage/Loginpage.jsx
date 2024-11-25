@@ -65,14 +65,14 @@ const Loginpage = () => {
                 <Navbar />
             </section>
             <section>
-                <div className="container-fluid justify-center d-flex text-black">
-                    <div className="container my-10">
-                        <h1 className=" text-center text-2xl font-bold font-serif text-capitalize my-4 text-light text-wrap">
+                <div className="d-flex justify-center text-black container-fluid">
+                    <div className="my-10 container">
+                        <h1 className="my-4 font-bold font-serif text-2xl text-center text-light text-wrap text-capitalize">
                             Student/Teacher log-in
                         </h1>
-                        <div className="container-fluid outerloginpagebox gap-3 col-10 py-4 rounded-3xl d-flex formloginmobileview">
-                            <img src={loginimagesvg} className="img-fluid w-80" alt="login" />
-                            <div className="innerloginpage w-100">
+                        <div className="d-flex gap-3 py-4 rounded-3xl col-10 container-fluid formloginmobileview outerloginpagebox">
+                            <img src={loginimagesvg} className="w-80 img-fluid" alt="login" />
+                            <div className="w-100 innerloginpage">
                                 <form onSubmit={handleSubmit}>
                                     <div className="mb-3">
                                         <label htmlFor="email" className="form-label">Email address</label>
@@ -98,7 +98,7 @@ const Loginpage = () => {
                                             required
                                         />
                                     </div>
-                                    <div className="mb-3 form-check">
+                                    <div className="form-check mb-3">
                                         <input
                                             type="checkbox"
                                             className="form-check-input"
@@ -109,7 +109,7 @@ const Loginpage = () => {
                                         />
                                         <label className="form-check-label" htmlFor="rememberMe">Remember me!</label>
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                                 </form>
                             </div>
                         </div>

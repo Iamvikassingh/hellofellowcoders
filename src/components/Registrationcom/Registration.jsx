@@ -90,10 +90,10 @@ const Registration = () => {
             <section>
                 <div className="container">
                     <div className="registration-heading-area">
-                        <h1 className='text-4xl text-light text-center font-bold my-4 text-capitalize font-serif'>Registration</h1>
+                        <h1 className='my-4 font-bold font-serif text-4xl text-center text-light text-capitalize'>Registration</h1>
                     </div>
                     <div className="container-fluid">
-                        <div className="container-fluid choose-button-area gap-4 d-flex items-center justify-center">
+                        <div className="d-flex justify-center items-center gap-4 choose-button-area container-fluid">
                             <button
                                 className={`btn btn-primary text-capitalize ${isTeacher ? 'active' : ''}`}
                                 onClick={() => changeRegistrationForm('teacher')}>
@@ -110,25 +110,25 @@ const Registration = () => {
             </section>
             {isTeacher ? (
                 <section>
-                    <div className="container-fluid imageareaforteacher col-11 my-8 rounded-3xl d-flex justify-between py-2 bg-dark gap-4">
-                        <div className="container-fluid imageareacontrol items-center justify-center d-flex flex-col gap-2">
-                            <img src={teacherillustrator} className='img-fluid imagesizecontroller' alt="Teacher illustration" width={250} />
-                            <div className="text-center text-capitalize text-white font-serif font-bold text-2xl">
+                    <div className="d-flex justify-between gap-4 bg-dark my-8 py-2 rounded-3xl col-11 container-fluid imageareaforteacher">
+                        <div className="d-flex flex-col justify-center items-center gap-2 container-fluid imageareacontrol">
+                            <img src={teacherillustrator} className='imagesizecontroller img-fluid' alt="Teacher illustration" width={250} />
+                            <div className="font-bold font-serif text-2xl text-center text-white text-capitalize">
                                 Teacher
                             </div>
                         </div>
-                        <div className="text-white text-justify py-4 textareacontrol bg-gray-900 rounded-xl ">
+                        <div className="bg-gray-900 py-4 rounded-xl text-justify text-white textareacontrol">
                             <div className="container-fluid">
-                                <h1 className='text-gray-100 text-4xl text-center text-capitalize my-4 font-bold'>Teacher Registration</h1>
+                                <h1 className='my-4 font-bold text-4xl text-center text-gray-100 text-capitalize'>Teacher Registration</h1>
                             </div>
                             <div className="container-fluid">
                                 <div className="w-100">
-                                    <p className='text-white text-capitalize text-md my-5'>
+                                    <p className='my-5 text-md text-white text-capitalize'>
                                         Join Hellofellowcoder as a teacher and inspire the next generation of coders! Register now to share your expertise, mentor aspiring developers, and make a difference in their coding journey. Together, let's build a vibrant coding community!
                                     </p>
-                                    {submissionError && <p className="text-danger my-3">{submissionError}</p>}
+                                    {submissionError && <p className="my-3 text-danger">{submissionError}</p>}
                                     <form onSubmit={handleTeacherSubmit}>
-                                    <div className="mb-3 d-flex gap-2  formresponsive flex-col">
+                                    <div className="d-flex flex-col gap-2 mb-3 formresponsive">
                                             <label htmlFor="teacherFirstName" className="form-label text-left">FirstName</label>
                                             <input
                                                 type="text"
@@ -199,7 +199,7 @@ const Registration = () => {
                                             />
                                             {errors.phone && <p className="text-danger">{errors.phone}</p>}
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                        <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                                     </form>
                                 </div>
                             </div>

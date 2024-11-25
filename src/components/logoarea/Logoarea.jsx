@@ -6,18 +6,16 @@ import './Logo.css'
 const Logoarea = () => {
     return (
         <>
-            <div className="HelloCodersLogo d-flex items-center bg-dark justify-between flex-wrap">
-                <div className="leftcontainer d-flex items-center flex-wrap">
+            <div className="d-flex flex-wrap justify-between items-center bg-dark HelloCodersLogo">
+                <div className="leftcontainer d-flex flex-wrap items-center">
                     <img src={logoforapp} className='img-fluid' alt="HelloFellowCoder's" />
-                    <h1 className='text-capitalize text-ligth font-bold  text-light text-lg'>
-                        <i className="bi bi-chevron-left text-sm"></i>
-                        HelloFellowCoder's /
-                        <i className="bi bi-chevron-right text-sm "></i>
+                    <h1 className='font-bold font-sens text-lg text-light text-ligth text-capitalize'>
+                        HelloFellowCoder's
                     </h1>
                 </div>
                 <div className="rightcontainer">
-                    <h1 className='text-capitalize text-light text-lg mx-2 text-center'>
-                        <i className="bi bi-exclamation-circle text-sm  font-bold mx-2"></i>
+                    <h1 className='mx-2 text-center text-lg text-light text-capitalize'>
+                        <i className="mx-2 font-bold text-sm bi bi-exclamation-circle"></i>
                         Created By Vikas Singh 😊
                     </h1>
                 </div>
