@@ -262,5 +262,9 @@ display: none;
 .chat-messages{
   overflow-y: scroll;
   max-height: 100dvh;
-  height: 62dvh;
+  height: 63dvh;
+}
+
+.outthecontainer{
+position: relative;
 }
