@@ -5,7 +5,9 @@ import Mainapp from './components/mainapp/Mainapp'
 import Loginpage from './components/loginPage/Loginpage'
 import Registration from './components/Registrationcom/Registration'
 import PrivateComponent from './components/privatecomponent/PrivateComponent'
-import Chatfunction from './components/Chat/Chatfunction'
+import About from './components/About/About'
+import Footer from './components/Footer/Footer'
+import FlowchartDisplay from './components/Flowchartdisplay/FlowchartDisplay'
 
 
 function App() {
@@ -16,17 +18,18 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Mainapp />} />
-          <Route path='/about' element={<h1>this is about us</h1>} />
+          <Route path='/about' element={<About/>} />
           
             {/* here is the privateComponet */}
           <Route element={<PrivateComponent />}>
-            <Route path='/Chat' element={<Chatfunction/>} />
+            <Route path='/Flowchartdisplay' element={<FlowchartDisplay/>} />
           </Route>
 
           <Route path='/login' element={<Loginpage />} />
           <Route path='/registration' element={<Registration />} />
         </Routes>
       </BrowserRouter>
+      {/* <Footer/> */}
     </>
   )
 }

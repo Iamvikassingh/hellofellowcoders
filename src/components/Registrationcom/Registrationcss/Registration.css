@@ -1,5 +1,5 @@
 .imageareaforteacher{
-    background-image: url('../../../assets/register.jpg');
+    background-image: url('../../../assets/teacher.jpg');
     background-position: center;
     background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
     background-size: cover;

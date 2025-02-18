@@ -1,0 +1,86 @@
+/* Flowchart Container */
+.flowchart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Increased gap for better spacing */
+    padding: 20px;
+    position: relative;
+}
+
+/* Flowchart Node */
+.flowchart-node {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    width: min(100%, 200px);
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 40px; /* Added spacing between nodes */
+}
+
+/* Connector (Arrow Line) */
+.connector {
+    width: 2px;
+    height: 50px; /* Adjusted for better spacing */
+    background-color: #007bff;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+}
+
+/* Arrowhead */
+.connector::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid #007bff;
+}
+
+/* Alternating Nodes for Visual Appeal */
+.flowchart-node:nth-child(even) {
+    align-self: flex-start;
+    transform: translateY(15px);
+}
+
+.flowchart-node:nth-child(odd) {
+    align-self: flex-end;
+    transform: translateY(-15px);
+}
+
+/* Dynamic Colors for Better Visualization */
+.flowchart-node:nth-child(4n+1) { background-color: #ff5733; }
+.flowchart-node:nth-child(4n+2) { background-color: #33b5e5; }
+.flowchart-node:nth-child(4n+3) { background-color: #2ecc71; }
+.flowchart-node:nth-child(4n+4) { background-color: #f1c40f; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .flowchart-container {
+        flex-direction: column;
+        gap: 20px; /* Adjusted for better spacing on small screens */
+    }
+    .flowchart-node {
+        width: 90%;
+        max-width: none;
+        font-size: 0.9rem;
+        padding: 12px;
+        margin-bottom: 30px; /* Adjusted for better spacing on small screens */
+    }
+    .connector {
+        height: 40px; /* Adjusted for better spacing on small screens */
+    }
+}

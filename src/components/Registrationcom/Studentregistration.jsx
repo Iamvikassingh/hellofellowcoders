@@ -74,13 +74,13 @@ const StudentRegistration = () => {
             <div className="d-flex justify-between gap-4 bg-dark my-8 py-2 rounded-3xl col-11 container-fluid imageareaforteacher">
                 <div className="d-flex flex-col justify-center items-center gap-2 rounded-xl container-fluid imageareacontrol">
                     <img src={studentillustrator} className='imagesizecontroller img-fluid' alt="Student illustration" width={200} />
-                    <div className="font-bold font-serif text-2xl text-center text-white text-capitalize">
+                    <div className="font-serif font-bold text-white text-2xl text-center text-capitalize">
                         Student
                     </div>
                 </div>
-                <div className="bg-gray-900 py-4 rounded-xl text-justify text-white textareacontrol">
+                <div className="bg-gray-900 py-4 rounded-xl text-white text-justify textareacontrol">
                     <div className="container-fluid">
-                        <h1 className='my-4 font-bold text-4xl text-center text-gray-100 text-capitalize'>
+                        <h1 className='my-4 font-bold text-gray-100 text-4xl text-center text-capitalize'>
                             Student Registration
                         </h1>
                     </div>

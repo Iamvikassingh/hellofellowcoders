@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Navbar.css';
+import {
+    FaHome,
+    FaUser,
+    FaSignInAlt,
+    FaSearch,
+    FaGlobe,
+    FaSignOutAlt,
+    } from "react-icons/fa";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,26 +33,26 @@ const Navbar = () => {
             {/* All linking section is here */}
             <section>
                 <div className='d-flex justify-between items-center gap-4 bg-gray-950 py-2 text-white container-fluid mobileview'>
-                    <div className="d-flex flex-wrap items-center gap-4 container-fluid">
-                        <Link to="/">Home</Link>
-                        <Link to="/about">About</Link>
-                        <Link to="/chat">Chat</Link>
+                    <div className="d-flex flex-wrap items-center gap-4 container-fluid linksarea">
+                        <Link to="/"><FaHome className='text-blue-400'/>Home</Link>
+                        <Link to="/about"><FaUser className='text-green-400'/>About</Link>
+                        <Link to="/flowchartdisplay"><FaSearch className='text-yellow-400'/>Roadmap Search...</Link>
                         <Link to="https://myportfoliobyvikassingh.netlify.app" className='text-capitalize' target='_blank'>
-                            Visit Myportfolio
+                            <FaGlobe className='text-red-400 text-xl'/>Visit Myportfolio
                         </Link>
                     </div>
                     <div className="d-flex flex-wrap justify-end items-center gap-4 text-capitalize container-fluid smallviewpostion">
                         {isLoggedIn ? (
-                            <button onClick={handleLogout} className='btn btn-danger btn-sm'>
-                                Log out
+                            <button onClick={handleLogout} className='d-flex items-center gap-2 btn btn-danger btn-sm'>
+                                <FaSignOutAlt/>Log out
                             </button>
                         ) : (
                             <>
                                 <Link to="/login">
-                                    <button className='btn btn-primary btn-sm'>Log in</button>
+                                    <button className='d-flex items-center gap-2 btn btn-primary btn-sm'><FaSignInAlt/>Log in</button>
                                 </Link>
                                 <Link to="/registration">
-                                    <button className='btn btn-sm btn-success'>Registration</button>
+                                    <button className='d-flex items-center gap-2 btn btn-sm btn-success'><FaSignInAlt/>Registration</button>
                                 </Link>
                             </>
                         )}
