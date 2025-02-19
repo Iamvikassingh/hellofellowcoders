@@ -129,11 +129,11 @@ const FlowchartDisplay = () => {
                 </button>
 
                 {/* Right Sidebar */}
-                <div className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
+                <div className={`fixed top-0 right-0 h-full w-full md:w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
                     <div className="p-4">
                         <h2 className="mb-4 font-bold text-2xl">Roadmap Builder</h2>
                         <h2 className="mb-4 font-bold text-2xl">{searchTerm}</h2>
-                        <p className="text-gray-600">{(Summary!="")?Summary:"No Summary"}</p>
+                        <p className="text-gray-600">{(Summary !== "") ? Summary : "No Summary"}</p>
                     </div>
                 </div>
             </div>
