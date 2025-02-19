@@ -11,10 +11,10 @@ const API_KEY = import.meta.env.VITE_GENERATIVE_AI_API_KEY;
 const FlowchartDisplay = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [flowData, setFlowData] = useState([]);
+    const [Summary, setSummary] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const preciousnotesapp = "https://preciousnotes.netlify.app";
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -35,17 +35,36 @@ const FlowchartDisplay = () => {
                 each on a new line, prefixed with a number (1, 2, 3, etc.). 
                 Do not add any extra symbols, explanations, or formatting.`;
 
+                const summaryPrompt = `Provide a concise summary of ${searchTerm} in a well-structured bullet-point format. 
+                Each point should be clear, informative, and relevant, avoiding unnecessary details or repetition. 
+                Do not include extra symbols like asterisks or dashes—only use plain text.`;
+                
+
             const result = await model.generateContent(searchTerm,prompt);
             const response = await result.response;
             const text = await response.text();
 
             const data = processFlowData(text);
             setFlowData(data);
+
+
+            const summaryResult = await model.generateContent(searchTerm, summaryPrompt);
+            const summaryResponse = await summaryResult.response;
+            let summaryText = await summaryResponse.text();
+            summaryText = cleanGeneratedText(summaryText);
+            setSummary(summaryText);
+
+
         } catch (err) {
             setError("Error fetching data. Please try again.");
         } finally {
             setLoading(false);
         }
+    };
+
+
+    const cleanGeneratedText = (text) => {
+        return text.replace(/[*\-]/g, "").replace(/\s+/g, " ").trim();
     };
 
     // ✅ Function to clean and extract step numbers and names
@@ -110,8 +129,12 @@ const FlowchartDisplay = () => {
                 </button>
 
                 {/* Right Sidebar */}
-                <div className={`fixed top-0 right-0 h-full w-1/3 bg-white shadow-lg transition-transform transform ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
-                    <iframe src={preciousnotesapp} frameborder="0" className="w-full min-h-screen"></iframe>
+                <div className={`fixed top-0 right-0 h-full w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
+                    <div className="p-4">
+                        <h2 className="mb-4 font-bold text-2xl">Roadmap Builder</h2>
+                        <h2 className="mb-4 font-bold text-2xl">{searchTerm}</h2>
+                        <p className="text-gray-600">{(Summary!="")?Summary:"No Summary"}</p>
+                    </div>
                 </div>
             </div>
             

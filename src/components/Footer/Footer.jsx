@@ -8,7 +8,7 @@
         <footer className="bg-gray-950 mt-12 py-6 text-white">
         <div className="mx-auto text-center container">
             <p className="text-gray-400 text-sm">
-            Built with <FaHeart className="inline mx-1 text-red-500" /> by <span className="font-semibold text-blue-400">Vikas Singh</span>
+            Built with <FaHeart className="inline mx-1 text-red-500" /> by <span className="font-semibold text-blue-400">Vikas Singh Team</span>
             </p>
 
             <p className="mt-2">

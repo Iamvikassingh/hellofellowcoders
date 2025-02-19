@@ -15,8 +15,8 @@
             </div>
             <div className="rightcontainer">
             <p className="mr-2 text-gray-400 text-md">
-                Built with <FaHeart className="inline mx-1 text-red-500" /> by{" "}
-                <span className="font-semibold text-blue-400">Vikas Singh</span>
+                Built by{" "}
+                <span className="font-semibold text-blue-400">Vikas Singh Team</span>
             </p>
             </div>
         </div>
