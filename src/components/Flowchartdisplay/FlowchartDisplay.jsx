@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import Logoarea from "../logoarea/Logoarea";
 import Navbar from "../navbar/Navbar";
-import "./FlowchartDisplay.css"; // Import CSS for styling the flowchart
+import ReactFlow, { MiniMap, Controls, Background, addEdge } from "reactflow";
+import "reactflow/dist/style.css";
+import "./FlowchartDisplay.css";
 
-// Fetch API key from .env file
 const API_KEY = import.meta.env.VITE_GENERATIVE_AI_API_KEY;
 
 const FlowchartDisplay = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [flowData, setFlowData] = useState([]);
-    const [Summary, setSummary] = useState([]);
+    const [nodes, setNodes] = useState([]);
+    const [edges, setEdges] = useState([]);
+    const [summary, setSummary] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
     const handleSearch = async () => {
         if (!searchTerm) return;
@@ -30,31 +30,26 @@ const FlowchartDisplay = () => {
             const genAI = new GoogleGenerativeAI(API_KEY);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            const prompt = `Generate a roadmap for ${searchTerm}. 
-                Provide only the names of technologies or concepts in sequential order, 
-                each on a new line, prefixed with a number (1, 2, 3, etc.). 
-                Do not add any extra symbols, explanations, or formatting.`;
+            const roadmapPrompt = `Generate a structured learning roadmap for ${searchTerm}, listing key technologies, concepts, or steps in sequential order (1, 2, 3, etc.) from beginner to advanced, full explanations given with the names.`;
 
-                const summaryPrompt = `Provide a concise summary of ${searchTerm} in a well-structured bullet-point format. 
-                Each point should be clear, informative, and relevant, avoiding unnecessary details or repetition. 
-                Do not include extra symbols like asterisks or dashes—only use plain text.`;
-                
+            
 
-            const result = await model.generateContent(searchTerm,prompt);
-            const response = await result.response;
-            const text = await response.text();
+            const summaryPrompt = `Generate a concise and well-structured summary of ${searchTerm} in bullet points, highlighting its key concepts, importance, applications, and benefits. Keep it clear and informative.`;
 
-            const data = processFlowData(text);
-            setFlowData(data);
 
+            const roadmapResult = await model.generateContent(roadmapPrompt, searchTerm);
+            const roadmapText = await roadmapResult.response.text();
+            const roadmap = roadmapText.trim();
+            const processedData = processFlowData(roadmap);
+            
+            setNodes(generateNodes(processedData));
+            setEdges(generateEdges(processedData));
 
             const summaryResult = await model.generateContent(searchTerm, summaryPrompt);
             const summaryResponse = await summaryResult.response;
             let summaryText = await summaryResponse.text();
             summaryText = cleanGeneratedText(summaryText);
             setSummary(summaryText);
-
-
         } catch (err) {
             setError("Error fetching data. Please try again.");
         } finally {
@@ -67,17 +62,77 @@ const FlowchartDisplay = () => {
         return text.replace(/[*\-]/g, "").replace(/\s+/g, " ").trim();
     };
 
-    // ✅ Function to clean and extract step numbers and names
-    const processFlowData = (text) => {
-        const lines = text.split("\n").map(line => line.trim()).filter(line => line !== "");
 
-        return lines.map((line, index) => {
-            const match = line.match(/^(\d+)\.\s*(.+)$/); // Extracts "1. Topic" format
-            return match
-                ? { id: index, number: match[1], name: match[2] }
-                : { id: index, number: index + 1, name: line }; // Fallback if AI doesn't provide numbers
+    const processFlowData = (text) => {
+        return text.split("\n")
+            .map((line, index) => {
+                const match = line.match(/^\d+\.\s*(.+)$/);
+                return { id: index.toString(), label: match ? match[1] : line };
+            });
+    };
+
+    const generateNodes = (data) => {
+        const colors = ["#ffadad", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff"];
+        
+        const minXSpacing = 150, maxXSpacing = 250; // X-axis spacing for snake effect
+        const minYSpacing = 100, maxYSpacing = 200; // Y-axis spacing for snake effect
+        
+        let currentX = 100; // Start position for X
+        let currentY = 100; // Start position for Y
+        let toggleX = true; // To alternate left-right movement like a snake
+        let toggleY = true; // To alternate up-down movement like a snake
+    
+        return data.map((item, index) => {
+            const randomXSpacing = Math.random() * (maxXSpacing - minXSpacing) + minXSpacing;
+            const randomYSpacing = Math.random() * (maxYSpacing - minYSpacing) + minYSpacing;
+            
+            currentX += randomXSpacing; // Increment X progressively
+            currentY += toggleY ? randomYSpacing : -randomYSpacing; // Increment or decrement Y progressively
+    
+            if (index % 2 === 0) {
+                toggleX = !toggleX; // Alternate left-right
+            } else {
+                toggleY = !toggleY; // Alternate up-down
+            }
+    
+            return {
+                id: item.id,
+                data: { label: item.label },
+                position: { x: currentX, y: currentY },
+                style: {
+                    backgroundColor: colors[index % colors.length],
+                    color: "#333",
+                    borderRadius: "12px",
+                    padding: "12px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.2)",
+                },
+            };
         });
     };
+    
+    
+    
+    
+    
+    
+
+    
+    
+
+    const generateEdges = (data) => {
+        return data.slice(1).map((item, index) => ({
+            id: `e${index}-${index + 1}`,
+            source: data[index].id,
+            target: item.id,
+            animated: true, // Adds animation to the edges
+            style: { stroke: "#3498db", strokeWidth: 2 }, // Stylish blue edges
+        }));
+    };
+    
+    
 
     return (
         <>
@@ -88,7 +143,6 @@ const FlowchartDisplay = () => {
                     <h2 className="font-bold text-3xl text-center">Roadmap Builder</h2>
                     <footer className="mt-auto text-sm text-center">
                         <p>&copy; {new Date().getFullYear()} Roadmap Builder</p>
-                        
                     </footer>
                 </div>
                 <div className="flex-1 bg-gray-100 p-6">
@@ -112,17 +166,17 @@ const FlowchartDisplay = () => {
                     {loading && <div>Loading flowchart...</div>}
                     {error && <div className="text-red-500">{error}</div>}
 
-                    {!loading && flowData.length > 0 && (
-                        <div className="flowchart-container">
-                            {flowData.map((step, index) => (
-                                <div key={step.id} className="flowchart-node">
-                                    <span className="step-number">{step.number}.</span> {step.name}
-                                    {index < flowData.length - 1 && <div className="connector"></div>}
-                                </div>
-                            ))}
+                    {!loading && nodes.length > 0 && (
+                        <div className="flowchart-container" style={{ height: "600px" }}>
+                            <ReactFlow nodes={nodes} edges={edges} fitView>
+                                <MiniMap />
+                                <Controls />
+                                <Background variant="dots" />
+                            </ReactFlow>
                         </div>
                     )}
                 </div>
+
                 {/* Sidebar Button */}
                 <button onClick={toggleSidebar} className="top-4 right-4 z-50 fixed bg-blue-500 shadow-lg p-3 rounded-full focus:outline-none text-white">
                     {sidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
@@ -131,13 +185,12 @@ const FlowchartDisplay = () => {
                 {/* Right Sidebar */}
                 <div className={`fixed top-0 right-0 h-full w-full md:w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
                     <div className="p-4">
-                        <h2 className="mb-4 font-bold text-2xl">Roadmap Builder</h2>
+                        <h2 className="mb-4 font-bold text-2xl">Roadmap Summary</h2>
                         <h2 className="mb-4 font-bold text-2xl">{searchTerm}</h2>
-                        <p className="text-gray-600">{(Summary !== "") ? Summary : "No Summary"}</p>
+                        <p className="text-gray-600">{summary || "No Summary Available"}</p>
                     </div>
                 </div>
             </div>
-            
         </>
     );
 };
