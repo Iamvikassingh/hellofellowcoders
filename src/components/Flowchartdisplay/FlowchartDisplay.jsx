@@ -1,4 +1,4 @@
-    import React, { useState, useCallback } from "react";
+    import React, { useState, useCallback, useEffect } from "react";
     import { GoogleGenerativeAI } from "@google/generative-ai";
     import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
     import Logoarea from "../logoarea/Logoarea";
@@ -24,7 +24,6 @@
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -70,10 +69,18 @@
 
     const generateNodes = (data) => {
         const colors = [
-        "#ffadad", "#ffd6a5", "#fdffb6", "#caffbf",
-        "#9bf6ff", "#a0c4ff", "#bdb2ff", "#ffc6ff",
+        "#ffadad",
+        "#ffd6a5",
+        "#fdffb6",
+        "#caffbf",
+        "#9bf6ff",
+        "#a0c4ff",
+        "#bdb2ff",
+        "#ffc6ff",
         ];
-        let currentX = 100, currentY = 100, toggleY = true;
+        let currentX = 100,
+        currentY = 100,
+        toggleY = true;
 
         return data.map((item, index) => {
         currentX += 180;
@@ -125,24 +132,61 @@
     );
 
     const handleNodeClick = async (event, node) => {
+        if (node.id.startsWith("details-")) {
+        // Delete the node if it is a details node
+        setNodes((nds) => nds.filter((n) => n.id !== node.id));
+        setEdges((eds) =>
+            eds.filter((e) => e.source !== node.id && e.target !== node.id)
+        );
+        return;
+        }
+
         setLoading(true);
 
         try {
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const detailsPrompt = `Provide an in-depth explanation of ${node.data.label}, including definition, importance, use cases, and related concepts.`;
+        const detailsPrompt = `Provide an explanation of ${node.data.label}, including definition, importance, use cases, and related concepts.`;
 
         const detailsResult = await model.generateContent(detailsPrompt);
         const detailsText = await detailsResult.response.text();
         const cleanedDetails = cleanGeneratedText(detailsText);
 
+        const colors = [
+            "#ffadad",
+            "#ffd6a5",
+            "#fdffb6",
+            "#caffbf",
+            "#9bf6ff",
+            "#a0c4ff",
+            "#bdb2ff",
+            "#ffc6ff",
+        ];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
         const newNode = {
             id: `details-${node.id}`,
-            data: { label: cleanedDetails },
+            data: {
+            label: (
+                <div style={{ position: "relative" }}>
+                {cleanedDetails}
+                <FaTimes
+                    style={{
+                    position: "absolute",
+                    top: "-10px",
+                    right: "-10px",
+                    cursor: "pointer",
+                    display: "none",
+                    }}
+                    className="delete-icon"
+                />
+                </div>
+            ),
+            },
             position: { x: node.position.x + 200, y: node.position.y },
             style: {
-            backgroundColor: "#d3f8e2",
+            backgroundColor: randomColor,
             color: "#333",
             borderRadius: "12px",
             padding: "12px",
@@ -150,7 +194,7 @@
             fontWeight: "bold",
             textAlign: "center",
             boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.2)",
-            width: "auto",
+            width: "400px",
             whiteSpace: "pre-wrap",
             },
             draggable: true,
@@ -159,15 +203,44 @@
         setNodes((nds) => [...nds, newNode]);
         setEdges((eds) => [
             ...eds,
-            { id: `e${node.id}-details`, source: node.id, target: newNode.id, animated: true }
+            {
+            id: `e${node.id}-details`,
+            source: node.id,
+            target: newNode.id,
+            animated: true,
+            },
         ]);
-
         } catch (err) {
         console.error("Error fetching details:", err);
         } finally {
         setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const handleMouseOver = (event) => {
+        const deleteIcon = event.target.querySelector(".delete-icon");
+        if (deleteIcon) deleteIcon.style.display = "block";
+        };
+
+        const handleMouseOut = (event) => {
+        const deleteIcon = event.target.querySelector(".delete-icon");
+        if (deleteIcon) deleteIcon.style.display = "none";
+        };
+
+        const nodes = document.querySelectorAll(".react-flow__node");
+        nodes.forEach((node) => {
+        node.addEventListener("mouseover", handleMouseOver);
+        node.addEventListener("mouseout", handleMouseOut);
+        });
+
+        return () => {
+        nodes.forEach((node) => {
+            node.removeEventListener("mouseover", handleMouseOver);
+            node.removeEventListener("mouseout", handleMouseOut);
+        });
+        };
+    }, [nodes]);
 
     return (
         <>
@@ -187,7 +260,10 @@
                 placeholder="Enter a topic..."
                 className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 w-full md:w-1/3"
                 />
-                <button onClick={handleSearch} className="d-flex justify-center items-center bg-blue-500 px-4 py-2 rounded-md text-white">
+                <button
+                onClick={handleSearch}
+                className="d-flex justify-center items-center bg-blue-500 px-4 py-2 rounded-md text-white"
+                >
                 <FaSearch className="mr-2" /> Search
                 </button>
             </div>
@@ -195,7 +271,7 @@
             {loading && <div>Loading...</div>}
             {error && <div className="text-red-500">{error}</div>}
 
-            <div className="flowchart-container" style={{ height: "900px" }}>
+            <div className="flowchart-container" style={{ height: "700px" }}>
                 <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -212,17 +288,28 @@
             </div>
             </div>
             {/* Sidebar Button */}
-            <button onClick={toggleSidebar} className="top-4 right-4 z-50 fixed bg-blue-500 shadow-lg p-3 rounded-full text-white">
-                    {sidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-                </button>
+            <button
+            onClick={toggleSidebar}
+            className="top-4 right-4 z-50 fixed bg-blue-500 shadow-lg p-3 rounded-full text-white"
+            >
+            {sidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
 
-                {/* Right Sidebar */}
-                <div className={`fixed top-0 right-0 h-full w-full md:w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
-                    <div className="p-4">
-                        <h2 className="mb-4 font-bold text-2xl">{searchTerm || "Node Details"}</h2>
-                        <p className="text-gray-600">{summary || "Click a node to see details"}</p>
-                    </div>
-                </div>
+            {/* Right Sidebar */}
+            <div
+            className={`fixed top-0 right-0 h-full w-full md:w-1/4 bg-white shadow-lg transition-transform transform overflow-scroll ${
+                sidebarOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+            >
+            <div className="p-4">
+                <h2 className="mb-4 font-bold text-2xl">
+                {searchTerm || "Node Details"}
+                </h2>
+                <p className="text-gray-600">
+                {summary || "Click a node to see details"}
+                </p>
+            </div>
+            </div>
         </div>
         </>
     );
