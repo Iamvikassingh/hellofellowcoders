@@ -6,18 +6,18 @@
     FaChartLine,
     FaCheckCircle,
     FaLaptopCode,
-    FaGlobe,
-    FaChartPie,
     FaSignInAlt,
     } from "react-icons/fa";
     import "./Home.css";
     import Logoarea from "../logoarea/Logoarea";
     import Offlineonline from "../onlineoffline/Offlineonline";
     import Navbar from "../navbar/Navbar";
-    import { Link } from "react-router-dom";
+    import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 
     export default function Home() {
     const [showInternetConn, setShowInternetConn] = useState(true);
+    const [searchTerm, setSearchTerm] = useState(""); // Add searchTerm state
+    const navigate = useNavigate(); // Add navigate
 
     const showinternetconn = () => {
         const timer = setTimeout(() => {
@@ -28,12 +28,18 @@
 
     showinternetconn();
 
+    const handleSearch = () => {
+        if (searchTerm) {
+        navigate(`/flowchartdisplay?search=${searchTerm}`);
+        }
+    };
+
     return (
         <div className="bg-gray-900 min-h-screen text-white">
         {/* Sidebar */}
         <div className="flex">
             <aside className="hidden md:block bg-gray-800 p-6 w-64 min-h-screen">
-            <h2 className="mb-6 font-bold text-blue-400 text-2xl">Roadmap Builder</h2>
+            <h2 className="mb-6 font-bold text-blue-400 text-2xl">CodHelp Roadmap Builder</h2>
             <ul className="space-y-4">
                 <li className="flex items-center space-x-3">
                 <FaMap className="text-blue-400 text-xl" />
@@ -72,12 +78,32 @@
             {/* Hero Section */}
             <section className="mt-8 text-center">
                 <h1 className="font-bold text-blue-500 text-4xl">
-                Welcome to Roadmap Builder
+                Welcome to CodHelp Roadmap Builder
                 </h1>
                 <p className="mx-auto mt-2 max-w-2xl text-gray-400 text-lg">
                 Create dynamic, AI-powered learning paths for various domains,
                 guiding you step-by-step toward expertise.
                 </p>
+            </section>
+
+            <section>
+                            {/* Search Field */}
+            <div className="flex justify-center mt-8">
+                <input
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search for a roadmap..."
+                className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 w-full md:w-1/3 text-black"
+                />
+                <button
+                onClick={handleSearch}
+                className="bg-blue-500 ml-2 px-4 py-2 rounded-md text-white"
+                >
+                Search
+                </button>
+            </div>
+
             </section>
 
             {/* Features Grid */}

@@ -1,12 +1,11 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes , HashRouter } from 'react-router-dom'
 import './App.css'
 import Mainapp from './components/mainapp/Mainapp'
 import Loginpage from './components/loginPage/Loginpage'
 import Registration from './components/Registrationcom/Registration'
 import PrivateComponent from './components/privatecomponent/PrivateComponent'
 import About from './components/About/About'
-import Footer from './components/Footer/Footer'
 import FlowchartDisplay from './components/Flowchartdisplay/FlowchartDisplay'
 
 
@@ -15,7 +14,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path='/' element={<Mainapp />} />
           <Route path='/about' element={<About/>} />
@@ -28,8 +27,7 @@ function App() {
           <Route path='/login' element={<Loginpage />} />
           <Route path='/registration' element={<Registration />} />
         </Routes>
-      </BrowserRouter>
-      {/* <Footer/> */}
+      </HashRouter>
     </>
   )
 }

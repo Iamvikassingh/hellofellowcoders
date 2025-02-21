@@ -13,6 +13,7 @@
     } from "reactflow";
     import "reactflow/dist/style.css";
     import "./FlowchartDisplay.css";
+    import { useLocation } from "react-router-dom"; // Add useLocation
 
     const API_KEY = import.meta.env.VITE_GENERATIVE_AI_API_KEY;
 
@@ -24,11 +25,21 @@
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const location = useLocation(); // Add location
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const search = params.get("search");
+        if (search) {
+        setSearchTerm(search);
+        handleSearch(search);
+        }
+    }, [location]);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-    const handleSearch = async () => {
-        if (!searchTerm) return;
+    const handleSearch = async (term) => {
+        if (!term) return;
 
         setLoading(true);
         setError(null);
@@ -37,8 +48,8 @@
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const roadmapPrompt = `Generate a structured learning roadmap for ${searchTerm}, listing key technologies, concepts, or steps in sequential order.`;
-        const summaryPrompt = `Generate a concise summary of ${searchTerm}.`;
+        const roadmapPrompt = `Generate a structured learning roadmap for ${term}, listing key technologies, concepts, or steps in sequential order.`;
+        const summaryPrompt = `Generate a summary of ${term}.`;
 
         const roadmapResult = await model.generateContent(roadmapPrompt);
         const roadmapText = await roadmapResult.response.text();
@@ -147,7 +158,7 @@
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const detailsPrompt = `Provide an explanation of ${node.data.label}, including definition, importance, use cases, and related concepts.`;
+        const detailsPrompt = `Provide a concise explanation of ${node.data.label}, including definition, importance, use cases, and related concepts.`;
 
         const detailsResult = await model.generateContent(detailsPrompt);
         const detailsText = await detailsResult.response.text();
@@ -192,7 +203,7 @@
             padding: "12px",
             fontSize: "14px",
             fontWeight: "bold",
-            textAlign: "center",
+            textAlign: "left",
             boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.2)",
             width: "400px",
             whiteSpace: "pre-wrap",
@@ -249,6 +260,9 @@
         <div className="flex flex-wrap md:flex-nowrap h-screen">
             <div className="flex flex-col justify-between bg-gray-800 p-6 w-full md:w-64 text-white">
             <h2 className="font-bold text-3xl text-center">Roadmap Builder</h2>
+            <footer className="mt-auto text-sm text-center">
+                <p>&copy; {new Date().getFullYear()} Roadmap Builder</p>
+            </footer>
             </div>
 
             <div className="flex-1 bg-gray-100 p-6">
@@ -261,7 +275,7 @@
                 className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 w-full md:w-1/3"
                 />
                 <button
-                onClick={handleSearch}
+                onClick={() => handleSearch(searchTerm)}
                 className="d-flex justify-center items-center bg-blue-500 px-4 py-2 rounded-md text-white"
                 >
                 <FaSearch className="mr-2" /> Search

@@ -10,7 +10,7 @@
             <div className="leftcontainer d-flex flex-wrap items-center">
             <img src={logoforapp} className="img-fluid" alt="Roadmap Builder" />
             <h1 className="font-sens font-bold text-light text-ligth text-lg text-capitalize">
-                Roadmap Builder
+            CodHelp Roadmap Builder
             </h1>
             </div>
             <div className="rightcontainer">
